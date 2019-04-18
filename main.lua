@@ -1,0 +1,20 @@
+require 'components/TScreen'
+require 'debugDrawn'
+Game = require 'components/TGame'
+
+function love.load()
+    Game.Append(require 'components/TBackground')
+    Game.Append(require 'components/TShots')
+    Game.Append(require 'components/TPlayer')
+    Game.Append(require 'components/TCamera')
+end    
+
+function love.update(dt)
+    Game.Update(dt)
+end    
+
+function love.draw()
+    Camera.Set()
+    Game.Render()
+    love.graphics.print(love.timer.getFPS(), Camera.Pos.X + 10, -Camera.Pos.Y+10) -- render FPS
+end    
