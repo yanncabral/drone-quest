@@ -5,7 +5,6 @@ return {
         _G.Camera = TComponent.New 'Camera' -- cria uma variável global nesse caso
 
         function Camera.Init(e, args) 
-            _G.Camera = Camera
             Camera.Speed = 5
             Camera.Target = Game.Physis.getObject('Player')
             bg = Game.getObject("Background")    
