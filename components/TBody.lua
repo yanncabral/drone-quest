@@ -13,6 +13,8 @@ return {
             Height = 0
         }
         function body.Remove() body._remove = true end
+        function Bump() end
+
         function body.Collides(e) end
     
         return body

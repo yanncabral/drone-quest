@@ -1,14 +1,17 @@
 TComponent = require 'components/TComponent'
 
-function checkCollision(obj1, obj2)
-    local p1x = math.max(obj1.Pos.X-obj1.Origins.X, obj2.Pos.X-obj2.Origins.X)
-    local p1y = math.max(obj1.Pos.Y-obj1.Origins.Y, obj2.Pos.Y-obj2.Origins.Y)
-    local p2x = math.min(obj1.Pos.X-obj1.Origins.X+obj1.Size.Width, obj2.Pos.X-obj2.Origins.X+obj2.Size.Width)
-    local p2y = math.min(obj1.Pos.Y-obj1.Origins.Y+obj1.Size.Height, obj2.Pos.Y-obj2.Origins.Y+obj2.Size.Height)
+function checkCollision(obj1, obj2, side)
+    local P1 = {
+        X = math.max(obj1.Pos.X-obj1.Origins.X, obj2.Pos.X-obj2.Origins.X),
+        Y = math.max(obj1.Pos.Y-obj1.Origins.Y, obj2.Pos.Y-obj2.Origins.Y)
+    }
+    local P2 = {
+        X = math.min(obj1.Pos.X-obj1.Origins.X+obj1.Size.Width, obj2.Pos.X-obj2.Origins.X+obj2.Size.Width),
+        Y = math.min(obj1.Pos.Y-obj1.Origins.Y+obj1.Size.Height, obj2.Pos.Y-obj2.Origins.Y+obj2.Size.Height)
+    }
     local sideBySide = true 
-    
-    --return sideBySide and (p2x-p1x >= 0 and p2y-p1y >= 0) or (p2x-p1x > 0 and p2y-p1y > 0)
-    return (p2x-p1x >= 0 and p2y-p1y >= 0)
+    --sudeBySide conisdera maior ou igual
+    return (P2.X-P1.X >= 0 and P2.Y-P1.Y >= 0)
 end
 
 
