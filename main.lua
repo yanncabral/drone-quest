@@ -7,6 +7,8 @@ function love.load()
     Game.Append(require 'components/TPhysis')
     Game.Append(require 'components/TShots')
     Game.Physis.Append(require 'components/TPlayer')
+    Game.Physis.Append(require 'components/enemy', {X = 100, Y = -200})
+    Game.Physis.Append(require 'components/enemy', {X = -300,Y =  10})
     Game.Append(require 'components/TCamera')
 end    
 

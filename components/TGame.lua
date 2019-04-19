@@ -5,10 +5,19 @@ local TGame = {
         local game = TComponent.New 'Game'
         game.components = {}
 
-        function game.Init(e, args) end     
-        function game.Append(e) local obj = e.New() obj.Init() table.insert(game.components, obj) end   
+        function game.Init(e) end     
+        function game.Append(e, args) 
+            local obj = e.New(args) 
+            obj.Init() 
+            table.insert(game.components, obj) 
+        end   
         function game.Remove(e) table.remove(game.components, e) end
-        function game.Update(dt) for i, obj in ipairs(game.components) do obj.Update(dt) end end
+        function game.Update(dt) 
+            for i, obj in ipairs(game.components) do 
+                if obj._remove == true then return table.remove(i) end
+                obj.Update(dt) 
+            end 
+        end
         function game.Render() for i, obj in ipairs(game.components) do obj.Render() end end
         function game.getObject(_id) 
             for i, obj in ipairs(game.components) do 

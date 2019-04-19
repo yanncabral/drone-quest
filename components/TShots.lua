@@ -1,49 +1,66 @@
 TBody = require 'components/TBody'
+TComponent = require 'components/TComponent'
+
+local TShoot = {
+    New = function(args)
+        local CShoot = TBody.New 'Shoot'
+
+        function CShoot.Init(e)
+            CShoot.Image = args.Image
+            CShoot.Angle = args.Angle
+            CShoot.Speed = args.Speed
+            CShoot.Pos.X = args.X
+            CShoot.Pos.Y = args.Y
+        end
+
+        function CShoot.Collides(e)
+            if e.ID ~= 'Player' then
+            CShoot.Remove()
+            end
+        end
+        
+        function CShoot.Update(dt)
+            CShoot.Pos.Y = CShoot.Pos.Y - CShoot.Speed * math.cos(CShoot.Angle) * dt
+            CShoot.Pos.X = CShoot.Pos.X + CShoot.Speed * math.sin(CShoot.Angle) * dt    
+                        
+            if 
+            (CShoot.Pos.X < Camera.Pos.X) or 
+            (CShoot.Pos.Y < Camera.Pos.Y) or         
+            (CShoot.Pos.X > Camera.Pos.X + Screen.Width) or 
+            (CShoot.Pos.Y >-Camera.Pos.Y + Screen.Height) 
+            then
+                CShoot.Remove()
+            end
+        end
+
+        function CShoot.Render()   
+            love.graphics.setColor(1,1,1,0.6)
+            drawPolygon({X = CShoot.Pos.X, Y = CShoot.Pos.Y, Origins = CShoot.Origins, Angle = CShoot.Angle})
+            love.graphics.draw(CShoot.Image, CShoot.Pos.X, CShoot.Pos.Y, CShoot.Angle, 1,1,CShoot.Origins.X, CShoot.Origins.Y)
+            love.graphics.setColor(1,1,1,1)
+        end
+
+        return CShoot
+    end
+
+}
 
 return {
     New = function()
-        local shots = TBody.New 'Shots'
-        shots.Shoots = {}
+        local shots = TComponent.New 'Shots'
 
         function shots.Init()
             shots.Image = love.graphics.newImage('shoot.png')            
---[[             shots.Size.Height = shots.Image:getHeight()
-            shots.Size.Width  = shots.Image:getWidth()
-            shots.Origins.X = shots.Size.Width/2
-            shots.Origins.Y = shots.Size.Height/2    ]]
             shots.Speed = 500
         end
 
-        function shots.Update(dt)
-            for i, cshot in ipairs(shots.Shoots) do
-                cshot.Y = cshot.Y - shots.Speed * math.cos(cshot.Angle) * dt
-                cshot.X = cshot.X + shots.Speed * math.sin(cshot.Angle) * dt    
-                            
-                if 
-                (cshot.X < Camera.Pos.X) or 
-                (cshot.Y < Camera.Pos.Y) or         
-                (cshot.X > Camera.Pos.X + Screen.Width) or 
-                (cshot.Y > -Camera.Pos.Y + Screen.Height) 
-                then
-                    table.remove(shots.Shoots, i)
-                end
-            end
-        end
-
-        function shots.Render(e)
-            for i, cshot in ipairs(shots.Shoots) do        
-                love.graphics.setColor(1,1,1,0.6)
-                drawPolygon({X = cshot.X, Y = cshot.Y, Origins = shots.Origins, Angle = cshot.Angle})
-                love.graphics.draw(shots.Image, cshot.X, cshot.Y, cshot.Angle, 1,1,shots.Origins.X, shots.Origins.Y)
-                love.graphics.setColor(1,1,1,1)
-            end
-        end
-
         function shots.Add(x,y,angle)
-            table.insert(shots.Shoots, {
+            Game.Physis.Append(TShoot,{
                 X = x,
                 Y = y,
-                Angle = angle
+                Angle = angle,
+                Image = shots.Image,
+                Speed = shots.Speed
             })
         end
 
