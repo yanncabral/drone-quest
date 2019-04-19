@@ -1,6 +1,16 @@
 TComponent = require 'components/TComponent'
 
-function checkCollision(obj1, obj2, side)
+local function checkMasks(obj1, obj2)
+    local function hasValue(table, value)
+        for i, obj in ipairs(table) do
+            if obj == value then return true end
+        end
+        return false
+    end
+    return not ((hasValue(obj2.Masks, obj1.ID)) or (hasValue(obj1.Masks, obj2.ID)))
+end
+
+local function checkCollision(obj1, obj2)
     local P1 = {
         X = math.max(obj1.Pos.X-obj1.Origins.X, obj2.Pos.X-obj2.Origins.X),
         Y = math.max(obj1.Pos.Y-obj1.Origins.Y, obj2.Pos.Y-obj2.Origins.Y)
@@ -9,11 +19,15 @@ function checkCollision(obj1, obj2, side)
         X = math.min(obj1.Pos.X-obj1.Origins.X+obj1.Size.Width, obj2.Pos.X-obj2.Origins.X+obj2.Size.Width),
         Y = math.min(obj1.Pos.Y-obj1.Origins.Y+obj1.Size.Height, obj2.Pos.Y-obj2.Origins.Y+obj2.Size.Height)
     }
-    local sideBySide = true 
-    --sudeBySide conisdera maior ou igual
-    return (P2.X-P1.X >= 0 and P2.Y-P1.Y >= 0)
+    --sideBySide conisdera maior ou igual
+    if (P2.X-P1.X >= 0 and P2.Y-P1.Y >= 0) then 
+        angle = math.atan2(obj1.Pos.X - obj2.Pos.X, obj1.Pos.Y - obj2.Pos.Y)
+        obj1.ApplyForce((obj1.Speed + obj2.Speed)*(obj1.Friction + obj2.Friction)/2, angle)
+        obj2.ApplyForce((obj1.Speed + obj2.Speed)*(obj1.Friction + obj2.Friction)/2, angle+math.pi)
+        obj1.Collides(obj2)
+        obj2.Collides(obj1)
+    end
 end
-
 
 return {
     New = function(_id)
@@ -32,13 +46,13 @@ return {
         end   
         function physis.Remove(e) table.remove(physis.components, e) end
         function physis.Update(dt) 
-            for i, obj in pairs(physis.components) do 
-                obj.Update(dt) 
-                if obj._remove == true then return table.remove(physis.components, i) end
+            for i, obj1 in pairs(physis.components) do 
+                obj1.Update(dt) 
+                obj1.Move(dt)
+                if obj1._remove == true then return table.remove(physis.components, i) end
                 for j, obj2 in pairs(physis.components) do
-                    if i ~= j and checkCollision(obj, obj2) --[[ and obj.ID ~= obj2.ID ]] then
-                        obj.Collides(obj2)
-                        obj2.Collides(obj)
+                    if i ~= j and checkMasks(obj1,obj2) then
+                        checkCollision(obj1, obj2)
                     end
                 end
             end 

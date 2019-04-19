@@ -4,25 +4,24 @@ TComponent = require 'components/TComponent'
 local TShoot = {
     New = function(args)
         local CShoot = TBody.New 'Shoot'
+        CShoot.Friction = 1
+        CShoot.MaxSpeed = 500
 
         function CShoot.Init(e)
             CShoot.Image = args.Image
             CShoot.Angle = args.Angle
             CShoot.Speed = args.Speed
             CShoot.Pos.X = args.X
-            CShoot.Pos.Y = args.Y
+            CShoot.Pos.Y = args.Y            
+            table.insert(CShoot.Masks, 'Player')
+            CShoot.ApplyForce(500, -math.pi - args.Angle)            
         end
 
         function CShoot.Collides(e)
-            if e.ID ~= 'Player' then
             CShoot.Remove()
-            end
         end
         
-        function CShoot.Update(dt)
-            CShoot.Pos.Y = CShoot.Pos.Y - CShoot.Speed * math.cos(CShoot.Angle) * dt
-            CShoot.Pos.X = CShoot.Pos.X + CShoot.Speed * math.sin(CShoot.Angle) * dt    
-                        
+        function CShoot.Update(dt)                        
             if 
             (CShoot.Pos.X < Camera.Pos.X) or 
             (CShoot.Pos.Y < Camera.Pos.Y) or         
@@ -51,7 +50,7 @@ return {
 
         function shots.Init()
             shots.Image = love.graphics.newImage('shoot.png')            
-            shots.Speed = 500
+            shots.Speed = 50000
         end
 
         function shots.Add(x,y,angle)
