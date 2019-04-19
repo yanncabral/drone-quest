@@ -1,14 +1,16 @@
-component = require 'components/TComponent'
+TBody = require 'components/TBody'
 
 return {
     New = function()
-        local shots = component.New 'Shots'
+        local shots = TBody.New 'Shots'
         shots.Shoots = {}
 
         function shots.Init()
             shots.Image = love.graphics.newImage('shoot.png')            
-            shots.Origins.X = shots.Image:getWidth()/2
-            shots.Origins.Y = shots.Image:getHeight()/2
+--[[             shots.Size.Height = shots.Image:getHeight()
+            shots.Size.Width  = shots.Image:getWidth()
+            shots.Origins.X = shots.Size.Width/2
+            shots.Origins.Y = shots.Size.Height/2    ]]
             shots.Speed = 500
         end
 

@@ -7,7 +7,7 @@ return {
         function Camera.Init(e, args) 
             _G.Camera = Camera
             Camera.Speed = 5
-            Camera.Target = Game.getObject('Player')
+            Camera.Target = Game.Physis.getObject('Player')
             bg = Game.getObject("Background")    
         end
         

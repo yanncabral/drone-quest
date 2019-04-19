@@ -4,8 +4,9 @@ Game = require 'components/TGame'
 
 function love.load()
     Game.Append(require 'components/TBackground')
+    Game.Append(require 'components/TPhysis')
     Game.Append(require 'components/TShots')
-    Game.Append(require 'components/TPlayer')
+    Game.Physis.Append(require 'components/TPlayer')
     Game.Append(require 'components/TCamera')
 end    
 

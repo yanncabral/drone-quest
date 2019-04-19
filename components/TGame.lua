@@ -6,7 +6,7 @@ local TGame = {
         game.components = {}
 
         function game.Init(e, args) end     
-        function game.Append(e) table.insert(game.components, e.New()) game.components[#game.components].Init() end   
+        function game.Append(e) local obj = e.New() obj.Init() table.insert(game.components, obj) end   
         function game.Remove(e) table.remove(game.components, e) end
         function game.Update(dt) for i, obj in ipairs(game.components) do obj.Update(dt) end end
         function game.Render() for i, obj in ipairs(game.components) do obj.Render() end end

@@ -7,11 +7,7 @@ return {
         component.Pos = {
             X = 0,
             Y = 0
-        }
-        component.Origins = {
-            X = 0,
-            Y = 0
-        }        
+        } 
         function component.Init(e, args)    end
         function component.Update(e, dt)    end
         function component.Render(e)        end

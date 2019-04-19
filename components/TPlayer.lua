@@ -1,8 +1,8 @@
-TComponent = require 'components/TComponent'
+TBody = require 'components/TBody'
 
 return {
     New = function()
-        local Player = TComponent.New 'Player'
+        local Player = TBody.New 'Player'
 
         function Player.Init(e, args) 
             Player.Image = love.graphics.newImage('nave.png')
@@ -13,14 +13,12 @@ return {
             Player.Angle = 0
             Player.Speed = 100
             Player.AngleSpeed = 4
-            Player.ShotDelay = 0.2
+            Player.ShotDelay  = 0.2
             Player.SleepDelay = 0.2
-            Player.Origins = {
-                X = nil,
-                Y = nil
-            }    
-            Player.Origins.X = Player.Image:getWidth()/2
-            Player.Origins.Y = Player.Image:getHeight()/2   
+--[[             Player.Size.Height = Player.Image:getHeight()
+            Player.Size.Width  = Player.Image:getWidth()
+            Player.Origins.X = Player.Size.Width/2
+            Player.Origins.Y = Player.Size.Height/2    ]]
             bg = Game.getObject("Background")     
             Shots = Game.getObject('Shots')
         end
