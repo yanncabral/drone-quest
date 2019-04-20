@@ -11,7 +11,7 @@ return {
                 Y = 100
             }
             TPlayer.Angle = 0
-            TPlayer.Speed = 1.9
+            TPlayer.Acceleration = 1.9
             TPlayer.AngleSpeed = 4
             TPlayer.ShotDelay  = 0.2
             TPlayer.SleepDelay = 0.2
@@ -26,16 +26,16 @@ return {
         function TPlayer.Update(dt) 
         --moves
             if love.keyboard.isDown('a') and TPlayer.Pos.X > TPlayer.Origins.X then
-                TPlayer.ApplyForce(TPlayer.Speed, math.rad(270))
+                TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(270))
             end
             if love.keyboard.isDown('w')  and TPlayer.Pos.Y > TPlayer.Origins.Y  then
-                TPlayer.ApplyForce(TPlayer.Speed, math.rad(180))
+                TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(180))
             end    
             if love.keyboard.isDown('d') and TPlayer.Pos.X < bg.Image:getWidth() - TPlayer.Origins.X  then
-                TPlayer.ApplyForce(TPlayer.Speed, math.rad(90))
+                TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(90))
             end
             if love.keyboard.isDown('s') and TPlayer.Pos.Y < bg.Image:getHeight() - TPlayer.Origins.Y then
-                TPlayer.ApplyForce(TPlayer.Speed, math.rad(0))
+                TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(0))
             end
 
             if love.keyboard.isDown('left') then
