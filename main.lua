@@ -6,27 +6,6 @@ if Debug then
 end
 Game = require 'components/TGame'
 
-function RotateTowards(from, to, step, dt, player)
-    local difference = to - from    
-
-    local absdifference = math.abs(difference)
-    if absdifference < 0.01 then
-        return from
-    end
-
-    if difference < 0 then
-        if difference > -math.pi then
-            step = -step
-        end
-    elseif difference > math.pi then
-        step = -step
-    end
-    
-
-    local change = step * dt
-    return from + change
-end
-
 function love.run() --main loop
     if love.load then love.load() end -- não interpretaremos nenhum parametro
 	if love.timer then love.timer.step() end

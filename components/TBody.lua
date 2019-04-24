@@ -5,6 +5,7 @@ return {
         local body = component.New(_id)
         body._remove = false
         body.Friction = 0.98
+        body.Angle = 0
         body.MaxSpeed = 200
         body.ForceAngle = 0
         body.Acceleration = 0
@@ -21,7 +22,18 @@ return {
             Width = 0,
             Height = 0
         }
+
         function body.Remove() body._remove = true end
+        function body.RotateTowards(to, step)
+            local delta = to - body.Angle    
+            if (delta < 0 and delta > -math.pi) then
+                step = math.max(delta, -step) -- caso o delta seja menor que o step, o step deve ser o proprio delta
+            elseif delta > math.pi then
+                step = -step
+            end
+            return body.Angle + step
+        end        
+
         function body.getRect()
             local x1 = body.Pos.X + (-body.Origins.X) * math.cos(body.Angle) - (-body.Origins.Y) * math.sin(body.Angle)
             local y1 = body.Pos.Y + (-body.Origins.X) * math.sin(body.Angle) + (-body.Origins.Y) * math.cos(body.Angle)

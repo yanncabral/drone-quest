@@ -35,16 +35,8 @@ return {
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(0))
             end
             local targetX, targetY = love.mouse.getPosition()
-            --step =  math.abs(step) > TPlayer.AngleSpeed and (TPlayer.AngleSpeed * step < 0 and -1 or 1) or step
-            --[[ if love.keyboard.isDown('left') then
-                TPlayer.Angle = TPlayer.Angle - TPlayer.AngleSpeed * dt
-            end
-            --angles
-            if love.keyboard.isDown('right') then
-                TPlayer.Angle = TPlayer.Angle + TPlayer.AngleSpeed * dt
-            end  ]]
             local step = TPlayer.Pos.AngleBetween(Camera.ScreenToWorld(targetX, targetY))
-            TPlayer.Angle = RotateTowards(TPlayer.Angle, step, TPlayer.AngleSpeed, dt, TPlayer)
+            TPlayer.Angle = TPlayer.RotateTowards(step, TPlayer.AngleSpeed * dt)
             
 
             if love.mouse.isDown('1') and TPlayer.SleepDelay >= TPlayer.ShotDelay then
