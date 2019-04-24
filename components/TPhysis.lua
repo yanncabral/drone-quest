@@ -22,8 +22,11 @@ local function checkCollision(obj1, obj2)
     --sideBySide conisdera maior ou igual
     if (P2.X-P1.X >= 0 and P2.Y-P1.Y >= 0) then 
         angle = math.atan2(obj1.Pos.X - obj2.Pos.X, obj1.Pos.Y - obj2.Pos.Y)
-        obj1.ApplyForce((obj1.Speed + obj2.Speed)*(obj1.Friction + obj2.Friction)/2, angle)
-        obj2.ApplyForce((obj1.Speed + obj2.Speed)*(obj1.Friction + obj2.Friction)/2, angle+math.pi)
+        obj1.ApplyForce((obj1.Speed() + obj2.Speed())*(obj1.Friction + obj2.Friction)/2, angle)
+        obj2.ApplyForce((obj1.Speed() + obj2.Speed())*(obj1.Friction + obj2.Friction)/2, angle+math.pi)
+--[[         angle = (obj1.ForceAngle + obj2.ForceAngle)/2
+        obj1.ApplyForce((obj1.Speed() + obj2.Speed())*(obj1.Friction + obj2.Friction)/2, angle+math.pi) 
+        obj2.ApplyForce((obj1.Speed() + obj2.Speed())*(obj1.Friction + obj2.Friction)/2, angle)  ]]
         obj1.Collides(obj2)
         obj2.Collides(obj1)
     end
@@ -47,6 +50,9 @@ return {
         function physis.Remove(e) table.remove(physis.components, e) end
         function physis.Update(dt) 
             for i, obj1 in pairs(physis.components) do 
+                --limita o angulo dos objetos entre [-180,180]
+                obj1.Angle = obj1.Angle > math.pi and -2*math.pi+obj1.Angle or obj1.Angle
+                obj1.Angle = obj1.Angle < -math.pi and obj1.Angle+2*math.pi or obj1.Angle
                 obj1.Update(dt) 
                 obj1.Move(dt)
                 if obj1._remove == true then return table.remove(physis.components, i) end
@@ -57,7 +63,7 @@ return {
                 end
             end 
         end
-        function physis.Render() for i, obj in pairs(physis.components) do obj.Render() end end
+        function physis.Render() for i, obj in pairs(physis.components) do drawPolygon(obj) obj.Render() end end
         function physis.getObject(_id) 
             for i, obj in pairs(physis.components) do 
                 if obj.ID == _id then 

@@ -5,18 +5,15 @@ return {
         local TPlayer = TBody.New 'Player'
 
         function TPlayer.Init(e, args) 
-            TPlayer.Image = love.graphics.newImage('nave.png')
-            TPlayer.Pos = {
-                X = 100,
-                Y = 100
-            }
+            TPlayer.Image = love.graphics.newImage 'nave.png'
+            TPlayer.Pos.Set(100, 100)
             TPlayer.Angle = 0
             TPlayer.Acceleration = 1.9
-            TPlayer.AngleSpeed = 4
+            TPlayer.AngleSpeed = 1
             TPlayer.ShotDelay  = 0.2
             TPlayer.SleepDelay = 0.2
-            bg = Game.getObject("Background")     
-            Shots = Game.getObject('Shots')
+            bg = Game.getObject "Background"    
+            Shots = Game.getObject 'Shots'
         end
 
         function TPlayer.Collides(e)
@@ -37,22 +34,24 @@ return {
             if love.keyboard.isDown('s') and TPlayer.Pos.Y < bg.Image:getHeight() - TPlayer.Origins.Y then
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(0))
             end
-
-            if love.keyboard.isDown('left') then
+            local targetX, targetY = love.mouse.getPosition()
+            --step =  math.abs(step) > TPlayer.AngleSpeed and (TPlayer.AngleSpeed * step < 0 and -1 or 1) or step
+            --[[ if love.keyboard.isDown('left') then
                 TPlayer.Angle = TPlayer.Angle - TPlayer.AngleSpeed * dt
             end
             --angles
             if love.keyboard.isDown('right') then
                 TPlayer.Angle = TPlayer.Angle + TPlayer.AngleSpeed * dt
-            end
+            end  ]]
+            local step = TPlayer.Pos.AngleBetween(Camera.ScreenToWorld(targetX, targetY))
+            TPlayer.Angle = RotateTowards(TPlayer.Angle, step, TPlayer.AngleSpeed, dt, TPlayer)
+            
 
-            if love.keyboard.isDown('space') and TPlayer.SleepDelay >= TPlayer.ShotDelay then
+            if love.mouse.isDown('1') and TPlayer.SleepDelay >= TPlayer.ShotDelay then
                 Shots.Add(TPlayer.Pos.X, TPlayer.Pos.Y, TPlayer.Angle)
                 TPlayer.SleepDelay = 0
             end
             TPlayer.SleepDelay = TPlayer.SleepDelay + dt
-
-
         end
 
         function TPlayer.Render(e) 

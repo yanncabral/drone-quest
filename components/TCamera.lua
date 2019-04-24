@@ -7,8 +7,13 @@ return {
         function Camera.Init(e, args) 
             _G.Camera = Camera
             Camera.Speed = 5
+            Camera.Zoom = 1
             Camera.Target = Game.Physis.getObject('Player')
             bg = Game.getObject("Background")    
+        end
+
+        function Camera.ScreenToWorld(x,y)
+            return (x+Camera.Pos.X)*Camera.Zoom, (y-Camera.Pos.Y)*Camera.Zoom
         end
         
         function Camera.Update(dt)
@@ -35,8 +40,10 @@ return {
         end
 
         function Camera.Set(e) 
+            love.graphics.scale(Camera.Zoom,Camera.Zoom) 
             love.graphics.translate(-Camera.Pos.X, Camera.Pos.Y)
         end
+
         --function Camera.Destroy(e) end
     
         return Camera

@@ -10,7 +10,7 @@ local TShoot = {
         function CShoot.Init(e)
             CShoot.Image = args.Image
             CShoot.Angle = args.Angle
-            CShoot.Speed = args.Speed
+            CShoot.Acceleration = args.Speed
             CShoot.Pos.X = args.X
             CShoot.Pos.Y = args.Y            
             table.insert(CShoot.Masks, 'Player')
@@ -34,7 +34,7 @@ local TShoot = {
 
         function CShoot.Render()   
             love.graphics.setColor(1,1,1,0.6)
-            drawPolygon({X = CShoot.Pos.X, Y = CShoot.Pos.Y, Origins = CShoot.Origins, Angle = CShoot.Angle})
+            drawPolygon(CShoot)
             love.graphics.draw(CShoot.Image, CShoot.Pos.X, CShoot.Pos.Y, CShoot.Angle, 1,1,CShoot.Origins.X, CShoot.Origins.Y)
             love.graphics.setColor(1,1,1,1)
         end

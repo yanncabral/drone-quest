@@ -6,12 +6,9 @@ return {
 
         function TEnemy.Init(e) 
             TEnemy.Image = love.graphics.newImage('enave.png')
-            TEnemy.Pos = {
-                X = 400+args.X,
-                Y = 400+args.Y
-            }
+            TEnemy.Pos.Set(400+args.X,400+args.Y)
             TEnemy.Angle = 0
-            TEnemy.Speed = 100
+            TEnemy.Acceleration = 100
             TEnemy.AngleSpeed = 4
             TEnemy.ShotDelay  = 0.2
             TEnemy.SleepDelay = 0.2
