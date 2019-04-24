@@ -5,22 +5,25 @@ return {
         _G.Camera = TComponent.New 'Camera' -- cria uma variável global nesse caso
 
         function Camera.Init(e, args) 
-            _G.Camera = Camera
             Camera.Speed = 5
-            Camera.Zoom = 1
-            Camera.Target = Game.Physis.getObject('Player')
-            bg = Game.getObject("Background")    
+            Camera.Zoom = 2
+            Camera.Target = Game.Physis.getObject 'Player'
+            bg = Game.getObject 'Background'
+        end
+
+        function Camera.setZoom(zoom)
+            Camera.Zoom = zoom
         end
 
         function Camera.ScreenToWorld(x,y)
-            return (x+Camera.Pos.X)*Camera.Zoom, (y-Camera.Pos.Y)*Camera.Zoom
+            return (x+Camera.Pos.X)/Camera.Zoom, (y-Camera.Pos.Y)/Camera.Zoom
         end
         
         function Camera.Update(dt)
             local delta = { 
                 -- distancia entre o player e a origem atual e correção atenuada
-                X = math.floor(Camera.Pos.X - (Camera.Target.Pos.X - Screen.Width/2)),
-                Y = math.floor(Camera.Pos.Y + (Camera.Target.Pos.Y - Screen.Height/2))
+                X = math.floor(Camera.Pos.X - (Camera.Target.Pos.X - Screen.Width/2)),  
+                Y = math.floor(Camera.Pos.Y + (Camera.Target.Pos.Y - Screen.Height/2)) 
             }
             local target = {
             -- posição que a origem vai seguir

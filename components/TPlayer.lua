@@ -22,32 +22,24 @@ return {
 
         function TPlayer.Update(dt) 
         --moves
-            if love.keyboard.isDown('a') and TPlayer.Pos.X > TPlayer.Origins.X then
+            if love.keyboard.isDown 'a' and TPlayer.Pos.X > TPlayer.Origins.X then
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(270))
             end
-            if love.keyboard.isDown('w')  and TPlayer.Pos.Y > TPlayer.Origins.Y  then
+            if love.keyboard.isDown 'w' and TPlayer.Pos.Y > TPlayer.Origins.Y  then
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(180))
             end    
-            if love.keyboard.isDown('d') and TPlayer.Pos.X < bg.Image:getWidth() - TPlayer.Origins.X  then
+            if love.keyboard.isDown 'd' and TPlayer.Pos.X < bg.Image:getWidth() - TPlayer.Origins.X  then
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(90))
             end
-            if love.keyboard.isDown('s') and TPlayer.Pos.Y < bg.Image:getHeight() - TPlayer.Origins.Y then
+            if love.keyboard.isDown 's' and TPlayer.Pos.Y < bg.Image:getHeight() - TPlayer.Origins.Y then
                 TPlayer.ApplyForce(TPlayer.Acceleration, math.rad(0))
             end
             local targetX, targetY = love.mouse.getPosition()
-            --step =  math.abs(step) > TPlayer.AngleSpeed and (TPlayer.AngleSpeed * step < 0 and -1 or 1) or step
-            --[[ if love.keyboard.isDown('left') then
-                TPlayer.Angle = TPlayer.Angle - TPlayer.AngleSpeed * dt
-            end
-            --angles
-            if love.keyboard.isDown('right') then
-                TPlayer.Angle = TPlayer.Angle + TPlayer.AngleSpeed * dt
-            end  ]]
             local step = TPlayer.Pos.AngleBetween(Camera.ScreenToWorld(targetX, targetY))
-            TPlayer.Angle = RotateTowards(TPlayer.Angle, step, TPlayer.AngleSpeed, dt, TPlayer)
+            TPlayer.Angle = TPlayer.RotateTowards(step, TPlayer.AngleSpeed * dt)
             
 
-            if love.mouse.isDown('1') and TPlayer.SleepDelay >= TPlayer.ShotDelay then
+            if love.mouse.isDown '1' and TPlayer.SleepDelay >= TPlayer.ShotDelay then
                 Shots.Add(TPlayer.Pos.X, TPlayer.Pos.Y, TPlayer.Angle)
                 TPlayer.SleepDelay = 0
             end
