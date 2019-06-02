@@ -1,19 +1,22 @@
-require 'lovedebug'
+-- YANN
 require 'components/TVector'
 require 'components/TScreen'
+require 'components/HHook'
 if Debug then 
     require 'debugDrawn'
 end
-Game = require 'components/TGame'
 
-function love.run() --main loop
-    if love.load then love.load() end -- não interpretaremos nenhum parametro
-	if love.timer then love.timer.step() end
-	local dt = 0
+function love.run() 
+	-- Here we have the main loop hook.
+	Game = require 'components/TGame' -- It's the load func now!
+	-- We don't interpret any parameters, yeah?!
+	--if love.timer then love.timer.step() end
+	local dt = 0 -- Initializing dt
 	return function()
 		if love.event then
 			love.event.pump()
 			for name, a,b,c,d,e,f in love.event.poll() do
+				-- I'm parsing the events here.
 				if name == "quit" then
 					if not love.quit or not love.quit() then
 						return a or 0
@@ -23,25 +26,17 @@ function love.run() --main loop
 			end
 		end
 		if love.timer then dt = love.timer.step() end
-        Game.Update(dt)
+        Game.Update(dt) -- First callback is the Game.Update now!!
 		if love.graphics and love.graphics.isActive() then
-            Camera.Set()
-            Game.Render()
-            love.graphics.print(love.timer.getFPS(), Camera.Pos.X + 10, -Camera.Pos.Y+10) -- render FPS
-            love.graphics.present()
-			love.graphics.origin()            
+			if Game.MainMenu.Visible then
+				Game.MainMenu.Render()
+			else
+				Camera.Set() -- Sets the whole game into the screen pixel vector.
+			end
+			-- Camera.Set() is the second callback, ok?!
+            love.graphics.present() -- Render all pixels from love pixel vector on screen.
+			love.graphics.origin() -- Reset all parameters
 		end
-		if love.timer then love.timer.sleep(0.01) end -- limita o FPS a 60
+		if love.timer then love.timer.sleep(0.01) end -- Limits the FPS by 60
 	end
 end
-
-
-function love.load()
-    Game.Append(require 'components/TBackground')
-    Game.Append(require 'components/TPhysis')
-    Game.Append(require 'components/TShots')
-    Game.Physis.Append(require 'components/TPlayer')
-    Game.Physis.Append(require 'components/enemy', {X = 100, Y = -200})
-    Game.Physis.Append(require 'components/enemy', {X = -300,Y =  10})
-    Game.Append(require 'components/TCamera')    
-end    
