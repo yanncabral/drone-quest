@@ -1,7 +1,6 @@
 -- YANN
 require 'components/TVector'
 require 'components/TScreen'
-require 'components/HHook'
 if Debug then 
     require 'debugDrawn'
 end
