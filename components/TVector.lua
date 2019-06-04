@@ -1,6 +1,27 @@
+local function CopyTable(obj, seen)
+    if type(obj) ~= 'table' then return obj end
+    if seen and seen[obj] then return seen[obj] end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for k, v in pairs(obj) do res[CopyTable(k, s)] = CopyTable(v, s) end
+    return res
+end
+
 TVector = {
     New = function(x, y, angle)
         local vector = {}
+        local self = vector
+
+        function vector.Copy()
+            return CopyTable(vector)
+        end
+
+        if type(x) == 'table' then
+            vector = CopyTable(x)
+            return vector
+        end
+
         vector.X = x or 0
         vector.Y = y or 0
 
@@ -53,15 +74,15 @@ TVector = {
             vector.Y = math.floor(vector.Y + step * (target.Y - vector.Y))
         end
 
-        function vector.Normalize()
-            local mag = vector.Magnitude()
+        function vector.Unit()
+            local Magnitude = vector.Magnitude()
             vector.X = vector.X / Magnitude
             vector.Y = vector.Y / Magnitude
+            return vector
         end
 
         function vector.Normalized()
-            vector.Normalize()
-            return vector
+            return vector.Copy().Normalize()
         end
 
         function vector.Clamped(max)
@@ -84,22 +105,32 @@ TVector = {
         function vector.Set(x,y)
             vector.X = x
             vector.Y = y
+            return vector
         end
 
         function vector.Sub(anotherVector)
-            return {
-                X = vector.X - anotherVector.X,
-                Y = vector.Y - anotherVector.Y
-            }
+            return vector.Copy().Set(vector.X - anotherVector.X, vector.Y - anotherVector.Y)
         end
 
         function vector.Add(anotherVector)
-            return {
-                X = vector.X + anotherVector.X,
-                Y = vector.Y + anotherVector.Y
-            }
+            return vector.Copy().Set(vector.X + anotherVector.X, vector.Y + anotherVector.Y)
+        end
+
+        function vector.Dot(another)
+            return vector.X * another.X + vector.Y * another.Y
+        end
+
+        function vector.ToString()
+            return '{X = '..vector.X..', Y = '..vector.Y..'}'
+        end
+
+        function vector.Normal()
+            return vector.Copy().Set(vector.Y, -vector.X)
         end
 
         return vector
+    end,
+    Copy = function(obj)
+        return CopyTable(obj)
     end
 }
