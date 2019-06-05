@@ -9,7 +9,7 @@ local TShoot = {
         CShoot.MaxSpeed = 500
 
         function CShoot.Init(e)
-            CShoot.Image = args.Image
+            CShoot.Image = args.Image[1]
             CShoot.Angle = args.Angle
             CShoot.Acceleration = args.Speed
             CShoot.Pos.X = args.X
@@ -18,7 +18,7 @@ local TShoot = {
             CShoot.AddMask(args.Mask)
             CShoot.AddMask('Shadow')
             CShoot.AddMask('Shoot')
-            CShoot.ApplyForce(500, -math.pi - args.Angle)            
+            CShoot.ApplyForce(CShoot.Acceleration, -math.pi - args.Angle)            
         end
 
         function CShoot.Collides(e)
@@ -35,6 +35,13 @@ local TShoot = {
             then
                 CShoot.Remove()
             end
+            
+          if self.Speed() < 5 and args.kind==2 then
+              CShoot.Image=args.Image[2]
+            end
+
+            
+            
             self.Lifetime = self.Lifetime - dt
         end
 
@@ -53,12 +60,16 @@ return {
         local shots = TComponent.New 'Shots'
 
         function shots.Init()
-            shots.Images = {
-                love.graphics.newImage('shoot.png'),
+            shots.Images = {{
                 love.graphics.newImage('shoot.png')
+                },-- drone
+                {
+                love.graphics.newImage('gosma.png'),--Inimigo
+                love.graphics.newImage('poça.png')--Inimigo poça
+                }
             }
             shots.Friction = {1, 0.99}
-            shots.Speed = 50000
+            shots.Speed = {500, 250}
         end
 
         function shots.Add(x,y,angle, ID, Shooter)
@@ -67,9 +78,10 @@ return {
                 Y = y,
                 Angle = angle,
                 Image = shots.Images[ID],
-                Speed = shots.Speed,
+                Speed = shots.Speed[ID],
                 Friction = shots.Friction[ID],
                 ID = #shots,
+                kind = ID,
                 Mask = Shooter.ID
             })
         end
