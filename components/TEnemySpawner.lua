@@ -31,7 +31,7 @@ TEnemy =  {
         end
 
         function TEnemy.Attacked()
-            self.Life = self.Life - 2    
+            self.Life = self.Life - 25    
         end
 
         function TEnemy.Attack(e)
@@ -42,7 +42,9 @@ TEnemy =  {
         end
 
         function TEnemy.Update(dt) 
-            self.Translate = self.Pos.AngleBetween(Game.Player.Pos)
+            if Game.Player.Lighthouse.Power then
+                self.Translate = self.Pos.AngleBetween(Game.Player.Pos)
+            end
             if self.Pos.DistanceBetween(Game.Player.Pos) > 300 then
                 self.Pos.Fordward(45 * dt, self.Translate)
             else
@@ -73,8 +75,8 @@ TEnemySpawner = {
         Background = Game.Background.Image
         R = TVector.New(Background:getWidth(), Background:getHeight()).Magnitude()/2
         angle = math.rad(math.random(360))
-        x = Background:getWidth()/2  + R * math.cos(angle)
-        y = Background:getHeight()/2 - R * math.sin(angle)
+        x = Background:getWidth()/2  + R * math.sin(angle)
+        y = Background:getHeight()/2 - R * math.cos(angle)
         Game.Physis.Append(TEnemy, {X = x,Y =  y})
     end,
     Active = true

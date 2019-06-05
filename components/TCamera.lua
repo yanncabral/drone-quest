@@ -53,6 +53,7 @@ return {
 
         function Camera.Unset(e)
             love.graphics.print('FPS: '..love.timer.getFPS(), Camera.Pos.X + 10, -Camera.Pos.Y+10) -- render FPS
+            love.graphics.print('Energy: '..Game.Player.Energy, Camera.Pos.X + 10, -Camera.Pos.Y+25) -- render FPS
         end
         --function Camera.Destroy(e) end
     

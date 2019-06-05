@@ -24,18 +24,17 @@ return {
         function TPlayer.Collides(e)
             -- "e" parameter is the another object which the player collides
             if e.ID == 'Shoot' then
-                self.Energy = self.Energy - 25
+                self.Attacked(e)
             end
         end
 
         function TPlayer.Attacked(e)
-
+            self.Energy = self.Energy - 25
         end
 
         function TPlayer.keypressed(key)
             if key == 'q' then
                 self.Lighthouse.setPower(not self.Lighthouse.Power)
-                io.write('q was pressed')
             end
         end
 
