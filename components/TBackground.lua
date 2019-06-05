@@ -7,6 +7,7 @@ return {
 
         function TBackground.Init(e, args) 
             self.Image = love.graphics.newImage('bg2.jpg')
+            Game.Background = self
         end
 
         function TBackground.Render(e) 

@@ -1,8 +1,8 @@
 TBody = require 'components/TBody'
 
-return {
+TEnemy =  {
     New = function(args)
-        local TEnemy = TBody.New('Enemy'..args.ID)
+        local TEnemy = TBody.New('Enemy')--..args.ID)
         local self = TEnemy
         local Shots = Game.getObject 'Shots'
         function TEnemy.Init(e) 
@@ -66,3 +66,18 @@ return {
         return TEnemy
     end
 }
+
+TEnemySpawner = {
+    Delay = 1,
+    Fn = function()
+        Background = Game.Background.Image
+        R = TVector.New(Background:getWidth(), Background:getHeight()).Magnitude()/2
+        angle = math.rad(math.random(360))
+        x = Background:getWidth()/2  + R * math.cos(angle)
+        y = Background:getHeight()/2 - R * math.sin(angle)
+        Game.Physis.Append(TEnemy, {X = x,Y =  y})
+    end,
+    Active = true
+}
+
+Game.Spawner.Add(TEnemySpawner)

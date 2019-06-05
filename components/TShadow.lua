@@ -7,12 +7,10 @@ return {
         self.Shadows = {}
 
         function TShadow.AddShadow(e)
-            if self.Shadows[e.ID] == nil then
-                self.Shadows[e.ID] = {
-                    Vertices = e.getRect(),
-                    Pos = e.Pos
-                }
-            end
+            table.insert(self.Shadows, {
+                Vertices = e.getRect(),
+                Pos = e.Pos
+            })
         end
 
         function TShadow.Init(e, args)
@@ -72,12 +70,16 @@ return {
         function TShadow.RenderShadows(e)
             love.graphics.setColor(0,0,0,0.6)
             for i in pairs(self.Shadows) do
+                if self.Shadows[i].Pos == nil then 
+                    table.remove(self.Shadow, i)
+                else
                 local vertices = self.getVertices(self, self.Shadows[i])
                 love.graphics.circle('fill', self.Shadows[i].Pos.X, self.Shadows[i].Pos.Y, 26)
                 love.graphics.polygon('fill', vertices)
                 self.Shadows[i] = nil
+                end
             end
-            package.loaded.renderShadow = nil
+            --package.loaded.renderShadow = nil
             love.graphics.setColor(1,1,1,1)
         end
         function TShadow.Destroy(e) end

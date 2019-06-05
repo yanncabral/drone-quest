@@ -31,9 +31,9 @@ local TGame = {
             Game.Append(require 'components/TPhysis')
             Game.Append(require 'components/TShots')
             Game.Physis.Append(require 'components/TPlayer')	
+            Game.Append(require 'components.TSpawner')
             -- enemy test
-            Game.Physis.Append(require 'components/enemy', {X = 100, Y = -200, ID = 1})
-            Game.Physis.Append(require 'components/enemy', {X = -300,Y =  10,  ID = 2})
+            require 'components/TEnemySpawner' -- init game
             Game.Append(require 'components/TCamera')   
         end     
         function game.Append(e, args) 
