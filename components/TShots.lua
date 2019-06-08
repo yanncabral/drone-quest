@@ -36,7 +36,7 @@ local TShoot = {
                 CShoot.Remove()
             end
             
-          if self.Speed() < 5 and args.kind==2 then
+          if self.Speed() < 5 and args.ID==2 then
               CShoot.Image=args.Image[2]
             end
 
@@ -64,8 +64,8 @@ return {
                 love.graphics.newImage('shoot.png')
                 },-- drone
                 {
-                love.graphics.newImage('gosma.png'),--Inimigo
-                love.graphics.newImage('poça.png')--Inimigo poça
+                love.graphics.newImage('shoot.png'),--Inimigo
+                love.graphics.newImage('shoot.png')--Inimigo poça
                 }
             }
             shots.Friction = {1, 0.99}
@@ -80,8 +80,7 @@ return {
                 Image = shots.Images[ID],
                 Speed = shots.Speed[ID],
                 Friction = shots.Friction[ID],
-                ID = #shots,
-                kind = ID,
+                ID = ID,
                 Mask = Shooter.ID
             })
         end
