@@ -14,7 +14,7 @@ local TShoot = {
             CShoot.Acceleration = args.Speed
             CShoot.Pos.X = args.X
             CShoot.Pos.Y = args.Y        
-            CShoot.Lifetime = 20    
+            CShoot.Lifetime = 20 -- time to sumir ksks    
             CShoot.AddMask(args.Mask)
             CShoot.AddMask('Shadow')
             CShoot.AddMask('Shoot')
@@ -61,11 +61,11 @@ return {
 
         function shots.Init()
             shots.Images = {{
-                love.graphics.newImage('shoot.png')
+                love.graphics.newImage('shoot.png') -- ID 1
                 },-- drone
                 {
-                love.graphics.newImage('shoot.png'),--Inimigo
-                love.graphics.newImage('shoot.png')--Inimigo poça
+                love.graphics.newImage('shoot.png'),-- ID 2
+                love.graphics.newImage('shoot.png') -- ID 2 -- poça
                 }
             }
             shots.Friction = {1, 0.99}
