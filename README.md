@@ -4,5 +4,5 @@ Um projeto de jogo usando LÖVE e Lua desenvolvido como requisito para a discipl
 Alguns códigos precisam ser atualizados aqui. Abaixo algumas imagens de testes usado no slide da apresentação.
 
 ![Imagem_1](https://raw.githubusercontent.com/yanndias/drone-quest/master/doc/imagem.jpeg)
-![Imagem_2](https://raw.githubusercontent.com/yanndias/drone-quest/master/doc/imagem3.jpeg)
-![Imagem_3](https://raw.githubusercontent.com/yanndias/drone-quest/master/doc/imagem2.jpeg)
+![Imagem_2](https://raw.githubusercontent.com/yanndias/drone-quest/master/doc/imagem3.gif)
+![Imagem_3](https://raw.githubusercontent.com/yanndias/drone-quest/master/doc/imagem2.gif)
